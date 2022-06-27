@@ -2,6 +2,10 @@ package com.arrazyfathan
 
 import android.app.Application
 import com.arrazyfathan.rickmorty.BuildConfig
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.FormatStrategy
+import com.orhanobut.logger.Logger
+import com.orhanobut.logger.PrettyFormatStrategy
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -11,7 +15,31 @@ class RickMortyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
+            val formatStrategy: FormatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(true)
+                .methodCount(1)
+                .methodOffset(5)
+                .tag("")
+                .build()
+
+            Logger.addLogAdapter(AndroidLogAdapter(formatStrategy))
+
+            Timber.plant(object : Timber.DebugTree() {
+                override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+                    Logger.log(priority, "-$$tag", message, t)
+                }
+
+                override fun createStackElementTag(element: StackTraceElement): String? {
+                    return String.format(
+                        "%s:%s",
+                        element.methodName,
+                        element.lineNumber,
+                        super.createStackElementTag(element)
+                    )
+                }
+            })
+
+            Timber.d("App Created!")
         }
     }
 }
