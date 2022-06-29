@@ -1,6 +1,7 @@
-package com.arrazyfathan
+package com.arrazyfathan // ktlint-disable filename
 
 import android.app.Application
+import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.arrazyfathan.rickmorty.BuildConfig
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.FormatStrategy
@@ -15,6 +16,7 @@ class RickMortyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
+            setupCustomCrash()
             val formatStrategy: FormatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(true)
                 .methodCount(1)
@@ -41,5 +43,9 @@ class RickMortyApplication : Application() {
 
             Timber.d("App Created!")
         }
+    }
+
+    private fun setupCustomCrash() {
+        CaocConfig.Builder.create().apply()
     }
 }

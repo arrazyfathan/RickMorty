@@ -1,7 +1,6 @@
 package com.arrazyfathan.rickmorty.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.arrazyfathan.rickmorty.R
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity() {
             when (it.status) {
                 Status.SUCCESS -> {
                     Timber.d(it.data.toString())
-                    Toast.makeText(this@MainActivity, it.data.toString(), Toast.LENGTH_SHORT).show()
                 }
                 Status.LOADING -> {
                 }
