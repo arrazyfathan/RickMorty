@@ -1,4 +1,4 @@
-package com.arrazyfathan.rickmorty.ui
+package com.arrazyfathan.rickmorty.ui.splash
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.arrazyfathan.rickmorty.R
+import com.arrazyfathan.rickmorty.ui.detail.MainActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {

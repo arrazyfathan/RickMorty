@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.arrazyfathan.rickmorty.data.remote.response.SingleCharacterResponse
 import com.arrazyfathan.rickmorty.repository.RickMortyRepository
 import com.arrazyfathan.rickmorty.utils.NetworkHelper
@@ -40,5 +42,9 @@ class MainViewModel @Inject constructor(
                 _character.postValue(Resource.error("No Internet connection", null))
             }
         }
+    }
+
+    suspend fun getCharactersList(): LiveData<PagingData<SingleCharacterResponse>> {
+        return rickMortyRepository.getAllCharacters().cachedIn(viewModelScope)
     }
 }
