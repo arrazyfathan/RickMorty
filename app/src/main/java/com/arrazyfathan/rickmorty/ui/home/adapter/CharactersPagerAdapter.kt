@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.arrazyfathan.rickmorty.R
 import com.arrazyfathan.rickmorty.data.remote.response.SingleCharacterResponse
 import com.arrazyfathan.rickmorty.databinding.AdapterCharactersBinding
 import com.squareup.picasso.Picasso
@@ -17,7 +18,9 @@ class CharactersPagerAdapter :
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
         val characters = getItem(position)!!
         holder.view.characterName.text = characters.name
-        Picasso.get().load(characters.image).into(holder.view.characterImg)
+        Picasso.get()
+            .load(characters.image)
+            .into(holder.view.characterImg)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {

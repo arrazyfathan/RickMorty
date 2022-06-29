@@ -1,12 +1,13 @@
-package com.arrazyfathan.rickmorty.ui.detail
+package com.arrazyfathan.rickmorty.ui.home
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.arrazyfathan.rickmorty.databinding.ActivityMainBinding
 import com.arrazyfathan.rickmorty.ui.MainViewModel
 import com.arrazyfathan.rickmorty.ui.home.adapter.CharactersPagerAdapter
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.charactersRecyclerview.adapter = adapter
-        binding.charactersRecyclerview.layoutManager = LinearLayoutManager(this)
+        binding.charactersRecyclerview.layoutManager = GridLayoutManager(this, 2)
 
         lifecycleScope.launch {
             viewModel.getCharactersList().observe(this@MainActivity) {
@@ -40,12 +41,13 @@ class MainActivity : AppCompatActivity() {
 
         adapter.addLoadStateListener { loadState ->
             // show empty list
-            if (loadState.refresh is LoadState.Loading ||
-                loadState.append is LoadState.Loading
-            )
-            // binding.progressDialog.isVisible = true
-                else {
-                // binding.progressDialog.isVisible = false
+            if (loadState.refresh is LoadState.Loading) {
+                binding.loadingLayout.isVisible = true
+            } else if (loadState.append is LoadState.Loading) {
+                binding.progressbar.isVisible = true
+            } else {
+                binding.loadingLayout.isVisible = false
+                binding.progressbar.isVisible = false
                 // If we have an error, show a toast
                 val errorState = when {
                     loadState.append is LoadState.Error -> loadState.append as LoadState.Error
@@ -58,34 +60,5 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-
-        // observeViewModel()
     }
-
-    /*private fun initUI(data: SingleCharacterResponse?) = with(binding) {
-        if (data != null) {
-            characterName.text = data.name
-            characterStatus.text = data.status
-            characterOriginName.text = data.origin.name
-            characterSpeciesName.text = data.species
-
-            Picasso.get().load(data.image).into(characterImage)
-        }
-    }*/
-
-    /*private fun observeViewModel() = with(viewModel) {
-        character.observe(this@MainActivity) { response ->
-            when (response.status) {
-                Status.SUCCESS -> {
-                    initUI(response.data)
-                }
-                Status.LOADING -> {
-                }
-                Status.ERROR -> {
-                    Timber.d(response.message)
-                }
-            }
-        }
-    }*/
 }

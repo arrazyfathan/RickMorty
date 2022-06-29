@@ -4,9 +4,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.arrazyfathan.rickmorty.data.remote.api.ApiHelper
 import com.arrazyfathan.rickmorty.data.remote.response.SingleCharacterResponse
-import javax.inject.Inject
 
-class CharactersPagingSource @Inject constructor(private val apiHelper: ApiHelper) :
+class CharactersPagingSource(private val apiHelper: ApiHelper) :
     PagingSource<Int, SingleCharacterResponse>() {
 
     override fun getRefreshKey(state: PagingState<Int, SingleCharacterResponse>): Int? {

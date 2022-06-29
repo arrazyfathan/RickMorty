@@ -12,10 +12,10 @@ import javax.inject.Inject
 
 class RickMortyRepository @Inject constructor(private val apiHelper: ApiHelper) {
 
-    suspend fun getAllCharacters(): LiveData<PagingData<SingleCharacterResponse>> {
+    fun getAllCharacters(): LiveData<PagingData<SingleCharacterResponse>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false,
                 initialLoadSize = 2
             ),
@@ -27,4 +27,8 @@ class RickMortyRepository @Inject constructor(private val apiHelper: ApiHelper) 
     }
 
     suspend fun getCharacter(characterId: Int) = apiHelper.getCharacterById(characterId)
+
+    companion object {
+        const val NETWORK_PAGE_SIZE = 20
+    }
 }

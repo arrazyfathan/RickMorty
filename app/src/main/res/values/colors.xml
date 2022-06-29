@@ -10,4 +10,5 @@
 
     <color name="black_primary">#202329</color>
     <color name="black_secondary">#3C3E44</color>
+    <color name="black_loading">#595C65</color>
 </resources>
