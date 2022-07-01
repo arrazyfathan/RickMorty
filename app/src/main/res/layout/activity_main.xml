@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_primary"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.home.MainActivity">
 
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/loading_layout"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shimmer_auto_start="true"
-        app:shimmer_direction="left_to_right"
-        app:shimmer_repeat_delay="500">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <include layout="@layout/shimmer_item_layout" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <include layout="@layout/shimmer_item_layout" />
+                <ImageView
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:src="@drawable/rick"
+                    app:layout_collapseMode="parallax" />
 
-            <include layout="@layout/shimmer_item_layout" />
+            </LinearLayout>
 
-            <include layout="@layout/shimmer_item_layout" />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
 
-        </LinearLayout>
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/characters_recyclerview"
         android:layout_width="match_parent"
+        android:layout_marginTop="-8dp"
         android:layout_height="match_parent"
+        android:layoutAnimation="@anim/anim_bottom_to_up"
         android:layout_marginStart="4dp"
+        android:nestedScrollingEnabled="true"
         android:layout_marginEnd="4dp"
-        app:layout_constraintBottom_toTopOf="@id/progressbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,14 +65,22 @@
         tools:listitem="@layout/adapter_characters"
         tools:spanCount="2" />
 
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progressbar"
+    <TextView
         android:layout_width="match_parent"
-        android:visibility="gone"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:indeterminate="true" />
+        android:gravity="center"
+        android:text="The Rick and Morty"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_anchor="@+id/app_bar"
+        app:layout_anchorGravity="center" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_circular"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_anchor="@id/characters_recyclerview"
+        app:layout_anchorGravity="top"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
